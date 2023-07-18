@@ -6,6 +6,10 @@ using static UnityEngine.Tilemaps.Tilemap;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameData GameDataObject;
+    [SerializeField] GameEvent InvertGravityEvent;
+    [SerializeField] GameEvent RevertGravityEvent;
+
     public CharacterController controller;
 
     Rigidbody rb;
@@ -105,16 +109,29 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            this.FlipGravity();
-        }
+        //old dual gravity controls
+        //if (Input.GetKeyUp(KeyCode.UpArrow) && !GameDataObject.IsGravityFlipped)
+        //{
+        //    this.FlipGravity();
+        //}
 
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            this.FixGravity();
-        }
+        //if (Input.GetKeyUp(KeyCode.DownArrow) && GameDataObject.IsGravityFlipped)
+        //{
+        //    this.FixGravity();
+        //}
 
+        //singular gravity control
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            if (GameDataObject.IsGravityFlipped)
+            {
+                this.FixGravity();
+            }
+            else
+            {
+                this.FlipGravity();
+            }
+        }
 
         //if (gravity == 16f)
         //{
@@ -204,7 +221,7 @@ public class PlayerController : MonoBehaviour
         this.gravity = 16f;
         transform.eulerAngles = new Vector3(0, 0, 180);
 
-
+        InvertGravityEvent.TriggerEvent();
 
     }
 
@@ -213,7 +230,7 @@ public class PlayerController : MonoBehaviour
         this.gravity = -16f;
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-
+        RevertGravityEvent.TriggerEvent();
 
     }
 
