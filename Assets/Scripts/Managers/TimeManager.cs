@@ -5,7 +5,6 @@ using UnityEngine;
 public class TimeManager : Singleton<TimeManager>
 {
     [SerializeField] public GameData GameDataObject;
-    [SerializeField] public LevelConditions LevelSettingsObject;
     [SerializeField] public GameEvent LevelFailEvent;
 
     void Update()

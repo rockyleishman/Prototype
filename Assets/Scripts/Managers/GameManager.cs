@@ -8,13 +8,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] public GameData GameDataObject;
-    [SerializeField] public LevelConditions LevelSettingsObject;
+    [SerializeField] public LevelConditions LevelConditionsObject;
+    [SerializeField] public GameEvent PauseGameEvent;
+    [SerializeField] public GameEvent UnpauseGameEvent;
     [SerializeField] public GameEvent LevelStartEvent;
 
     private void Start()
     {
         //pause game
-        Time.timeScale = 0.0f;
+        PauseGameEvent.TriggerEvent();
 
         //start level
         LevelStartEvent.TriggerEvent();
@@ -24,10 +26,10 @@ public class GameManager : Singleton<GameManager>
     {
         //init game data
         GameDataObject.IsGravityFlipped = false;
-        GameDataObject.LevelTimeRemaining = LevelSettingsObject.TimerStartingAmount;
-        GameDataObject.LevelPackageCondition = LevelSettingsObject.PackageHP;
+        GameDataObject.LevelTimeRemaining = LevelConditionsObject.TimerStartingAmount;
+        GameDataObject.LevelPackageCondition = LevelConditionsObject.PackageHP;
 
-        //start time
-        Time.timeScale = 1.0f;
+        //start game
+        UnpauseGameEvent.TriggerEvent();
     }
 }
