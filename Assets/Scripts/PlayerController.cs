@@ -6,6 +6,9 @@ using static UnityEngine.Tilemaps.Tilemap;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameEvent InvertGravityEvent;
+    [SerializeField] GameEvent RevertGravityEvent;
+
     public CharacterController controller;
 
     Rigidbody rb;
@@ -204,7 +207,7 @@ public class PlayerController : MonoBehaviour
         this.gravity = 16f;
         transform.eulerAngles = new Vector3(0, 0, 180);
 
-
+        InvertGravityEvent.TriggerEvent();
 
     }
 
@@ -213,7 +216,7 @@ public class PlayerController : MonoBehaviour
         this.gravity = -16f;
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-
+        RevertGravityEvent.TriggerEvent();
 
     }
 
