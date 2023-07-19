@@ -27,11 +27,14 @@ public class PlayerController : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
+    [SerializeField] public float JumpAntiGroundTime = 0.1f;
+    [SerializeField] public float TerminalVelocity = 64.0f;
+
     Vector3 velocity;
     bool isGrounded;
+    private float _jumpAntiGroundTimer;
 
-
-    bool Flipped = false;
+    //bool Flipped = false;
 
 
     
@@ -70,18 +73,33 @@ public class PlayerController : MonoBehaviour
     {
         StartYScale = transform.localScale.y;
         rb = GetComponent<Rigidbody>();
+
+        //init jump anti-ground timer
+        _jumpAntiGroundTimer = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (isGrounded && velocity.y < 0)
+        //check if grounded
+        if (_jumpAntiGroundTimer > 0.0f)
         {
-            velocity.y = -2f;
+            //prevent extra jumps and false jumps
+            isGrounded = false;
         }
+        else
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        }
+
+        //zero velocity when grounded
+        if (isGrounded)
+        {
+            velocity.y = 0.0f;
+        }
+
+        //update jump anti-ground timer
+        _jumpAntiGroundTimer -= Time.deltaTime;
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -103,10 +121,28 @@ public class PlayerController : MonoBehaviour
 
             this.TakeJump();
 
-            velocity.y = Mathf.Sqrt(jumpHight * -2f * gravity);
+            if (GameDataObject.IsGravityFlipped)
+            {
+                velocity.y = -Mathf.Sqrt(jumpHight * 2f * gravity);
+            }
+            else
+            {
+                velocity.y = Mathf.Sqrt(jumpHight * -2f * gravity);
+            }
         }
 
         velocity.y += gravity * Time.deltaTime;
+
+        //clamp velocity
+        if (velocity.y > TerminalVelocity)
+        {
+            velocity.y = TerminalVelocity;
+        }
+        else if (velocity.y < -TerminalVelocity)
+        {
+            velocity.y = -TerminalVelocity;
+        }
+
         controller.Move(velocity * Time.deltaTime);
 
         //old dual gravity controls
@@ -168,6 +204,9 @@ public class PlayerController : MonoBehaviour
     public void TakeJump(int num = 1)
     {
         JumpCount -= num;
+
+        //deny grounding
+        _jumpAntiGroundTimer = JumpAntiGroundTime;
     }
 
     private void FixedUpdate()

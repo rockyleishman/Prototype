@@ -2707,6 +2707,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 501cc5594db5e8e48bf7c9c9982b8ae8, type: 2}
     - target: {fileID: 3198848770751023622, guid: ad64c000270ae7d418f600676a044c70, type: 3}
+      propertyPath: TerminalVelocity
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198848770751023622, guid: ad64c000270ae7d418f600676a044c70, type: 3}
       propertyPath: InvertGravityEvent
       value: 
       objectReference: {fileID: 11400000, guid: 4feb59a089888f044b8f34b970dc74a2, type: 2}
