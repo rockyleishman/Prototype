@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 using static UnityEngine.Tilemaps.Tilemap;
 
 public class PlayerController : MonoBehaviour
@@ -52,16 +53,19 @@ public class PlayerController : MonoBehaviour
 
 
     public LayerMask Wall;
-    public float wallrunForce;
-    public float maxWallrunTime;
-    public float maxWallSpeed;
+    public float wallrunForce = 500;
+    public float maxWallrunTime = 3;
+    public float maxWallSpeed = 1000;
+    public float wallSwitchStrngth = 500;
+    public float Reach = 1.2f;
 
     public bool isWallRight;
     public bool isWallLeft;
     public bool isWallRunning;
 
-    public float maxWallRunCameraTilt;
-    public float wallRunCameraTilt;
+    //;gggggggggggggpublic float maxWallRunCameraTilt;
+    //public float wallRunCameraTilt;
+
 
     public Transform orientation;
 
@@ -193,6 +197,15 @@ public class PlayerController : MonoBehaviour
             StopSlide();   
         }
 
+
+        WallRunInput();
+
+        isWallRight = Physics.Raycast(transform.position, orientation.right, Reach, Wall);
+        isWallLeft = Physics.Raycast(transform.position, -orientation.right, Reach, Wall);
+
+      
+
+
     }
 
 
@@ -275,8 +288,88 @@ public class PlayerController : MonoBehaviour
 
     public void NoGravity()
     {
-        this.gravity = 0f;
+        this.gravity = -2f;
 
+        ResetJumps();
 
     }
+
+
+    private void WallRunInput()
+    {
+        if (Input.GetKey("a") && isWallLeft)
+        {
+            SartWR();
+
+        }
+
+        if (Input.GetKey("d") && isWallRight)
+        {
+            SartWR();
+
+        }
+
+        if (Input.GetKeyDown("a") && isWallRunning && isWallRight)
+        {
+            StopWR();
+            rb.AddForce(orientation.up * wallSwitchStrngth * Time.deltaTime);
+
+            rb.AddForce(-orientation.right * wallSwitchStrngth * Time.deltaTime);
+
+
+        }
+        if (Input.GetKeyDown("d") && isWallRunning && isWallLeft)
+
+        {
+            StopWR();
+            rb.AddForce(orientation.up * wallSwitchStrngth * Time.deltaTime);
+
+            rb.AddForce(orientation.right * wallSwitchStrngth * Time.deltaTime);
+
+        }
+
+
+        else if (!isWallLeft && !isWallRight)
+        {
+            StopWR();
+        }
+    }
+
+    private void SartWR()
+    {
+        NoGravity();
+        isWallRunning = true;
+
+        Debug.Log("Lets wall run");
+
+        rb.AddForce(orientation.forward * maxWallSpeed * Time.deltaTime);
+
+        
+
+
+
+        if (isWallRight)
+        {
+            rb.AddForce(orientation.right * wallrunForce * Time.deltaTime);
+            
+        }
+
+        if (isWallLeft)
+        {
+            rb.AddForce(-orientation.right * wallrunForce * Time.deltaTime);
+
+          
+        }
+
+    }
+    private void StopWR()
+    {
+        FixGravity();
+        isWallRunning = false;
+
+
+        
+    }
+
+
 }
