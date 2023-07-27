@@ -76,11 +76,17 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         StartYScale = transform.localScale.y;
         rb = GetComponent<Rigidbody>();
 
+
+        StartSlide();
+
+
         //init jump anti-ground timer
         _jumpAntiGroundTimer = 0.0f;
+
     }
 
     // Update is called once per frame
