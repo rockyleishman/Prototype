@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour
     public void FlipGravity()
     {
         this.gravity = 16f;
-        transform.eulerAngles = new Vector3(0, 0, 180);
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 180);
 
         InvertGravityEvent.TriggerEvent();
 
@@ -281,7 +281,7 @@ public class PlayerController : MonoBehaviour
     public void FixGravity()
     {
         this.gravity = -16f;
-        transform.eulerAngles = new Vector3(0, 0, 0);
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
         RevertGravityEvent.TriggerEvent();
 
