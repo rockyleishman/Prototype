@@ -66,8 +66,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0964bf0aa2c1bd64baaeb019748aaf9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameDataObject: {fileID: 0}
+  InvertGravityEvent: {fileID: 0}
+  RevertGravityEvent: {fileID: 0}
   controller: {fileID: 3198848770751023623}
-  speed: 10
+  MoveSpeed: 0
+  Walkspeed: 12
   gravity: -18
   jumpHight: 3
   groundCheck: {fileID: 3198848771302291917}
@@ -75,7 +79,26 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  jumpAudio: {fileID: 0}
+  JumpAntiGroundTime: 0.1
+  TerminalVelocity: 64
+  CrouchYScale: 0.5
+  StartYScale: 0
+  MaxSlideTime: 0.75
+  SlideForce: 17
+  verticalInput: 0
+  horizontalInput: 0
+  Wall:
+    serializedVersion: 2
+    m_Bits: 0
+  wallrunForce: 0
+  maxWallrunTime: 0
+  maxWallSpeed: 0
+  isWallRight: 0
+  isWallLeft: 0
+  isWallRunning: 0
+  maxWallRunCameraTilt: 0
+  wallRunCameraTilt: 0
+  orientation: {fileID: 0}
 --- !u!1 &3198848770829411543
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,8 +196,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da0a917db69799448376d14c53fd16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 100
-  playerBody: {fileID: 3198848770751023616}
+  PlayerBody: {fileID: 0}
+  CameraHeadTransform: {fileID: 0}
+  CameraTailTransform: {fileID: 0}
+  MouseSensitivity: 150
+  UpperClamp: 75
+  LowerClamp: -75
+  GravityFlipTime: 0.5
 --- !u!1 &3198848771302291916
 GameObject:
   m_ObjectHideFlags: 0
