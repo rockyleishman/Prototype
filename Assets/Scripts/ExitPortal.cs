@@ -21,9 +21,13 @@ public class ExitPortal : MonoBehaviour
     public void OnTriggerEnter(Collider c)
     {
 
-        if (c.gameObject.name == "Player")
+        if (c.gameObject.name == "First Person Player")
         {
+
+            Debug.Log("Player Wins");
+
             SceneManager.LoadScene(Application.loadedLevel);
+
         }
     }
 }
