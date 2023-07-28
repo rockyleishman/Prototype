@@ -23,7 +23,11 @@ public class ExitPortal : MonoBehaviour
 
         if (c.gameObject.name == "Player")
         {
+
+            Debug.Log("Player Wins");
+
             SceneManager.LoadScene(Application.loadedLevel);
+
         }
     }
 }
