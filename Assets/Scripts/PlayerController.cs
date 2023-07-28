@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     public float maxWallSpeed = 1000;
     public float wallSwitchStrngth = 500;
     public float Reach = 1.2f;
+    [SerializeField] public float WallRunGravityDivisor = 8.0f;
 
     public bool isWallRight;
     public bool isWallLeft;
@@ -286,15 +287,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void NoGravity()
-    {
-        this.gravity = -2f;
-
-        ResetJumps();
-
-    }
-
-
     private void WallRunInput()
     {
         if (Input.GetKey("a") && isWallLeft)
@@ -337,8 +329,13 @@ public class PlayerController : MonoBehaviour
 
     private void SartWR()
     {
-        NoGravity();
+        if (!isWallRunning)
+        {
+            this.gravity = this.gravity / WallRunGravityDivisor;
+        }
         isWallRunning = true;
+
+        ResetJumps();
 
         Debug.Log("Lets wall run");
 
@@ -364,11 +361,11 @@ public class PlayerController : MonoBehaviour
     }
     private void StopWR()
     {
-        FixGravity();
+        if (isWallRunning)
+        {
+            this.gravity = this.gravity * WallRunGravityDivisor;
+        }
         isWallRunning = false;
-
-
-        
     }
 
 
